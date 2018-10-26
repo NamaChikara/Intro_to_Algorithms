@@ -67,6 +67,25 @@ int HashTable::HashSearch(std::string name)
 	return -1;
 }
 
+int HashTable::HashDelete(std::string name)
+{
+	int index = 0;
+	for (int i = 0; i < table_size; ++i)
+	{
+		index = hash(name, i);
+		if (Table[index].name == name)
+		{
+			Table[index].delete_item();
+			return index;
+		}
+		if (Table[index].name == "empty")
+		{
+			return -1;
+		}
+	}
+	return -1;
+}
+
 void HashTable::PrintTable()
 {
 	for (int i = 0; i < table_size; ++i)
@@ -83,7 +102,7 @@ void HashTable::PrintTable()
 
 void HashTable::PrintIndex(int index)
 {
-	if (0 <= index < table_size)
+	if (0 <= index && index < table_size)
 	{
 		std::cout << "---------------\n";
 		std::cout << "Index " << index << " contains:" << std::endl;

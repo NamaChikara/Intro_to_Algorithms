@@ -23,6 +23,16 @@ int main()
 	int gpa_index = myhash.HashSearch("Grandpa");
 	myhash.PrintIndex(gpa_index);
 
+	int delete_index = myhash.HashDelete("Zack");
+	std::cout << "Zack was deleted from index " 
+		<< delete_index << std::endl;
+	myhash.PrintIndex(delete_index);
+
+	delete_index = myhash.HashDelete("BBBBB");
+	std::cout << "BBBBB was deleted from index "
+		<< delete_index << std::endl;
+	myhash.PrintIndex(delete_index);
+
 	std::cin.get();
 	return 0;
 }
