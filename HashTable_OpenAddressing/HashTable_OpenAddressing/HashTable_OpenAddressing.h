@@ -34,7 +34,9 @@ private:
 
 public:
 	void HashInsert(std::string name, int age);
+	int HashSearch(std::string name);
 	void PrintTable();
+	void PrintIndex(int index);
 };
 
 
