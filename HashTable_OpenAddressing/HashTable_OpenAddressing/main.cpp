@@ -20,6 +20,9 @@ int main()
 
 	myhash.PrintTable();
 
+	int gpa_index = myhash.HashSearch("Grandpa");
+	myhash.PrintIndex(gpa_index);
+
 	std::cin.get();
 	return 0;
 }
