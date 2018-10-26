@@ -5,7 +5,8 @@
 
 int main()
 {
-	HashTable myhash;
+	HashTable myhash("quadratic_probe");
+
 	myhash.HashInsert("Zack", 22);
 	myhash.HashInsert("Matt", 19);
 	myhash.HashInsert("Glen", 22);
