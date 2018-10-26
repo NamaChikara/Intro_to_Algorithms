@@ -12,6 +12,7 @@ class HashTable
 public:
 	struct Item
 	{
+		Item();
 		int hits;			// number of hits in a season (the key)
 		std::string name;
 		Item* prev;			// doubly linked list for collision management
@@ -38,7 +39,7 @@ public:
 	int NumberOfItemsInIndex(int index);
 	void PrintTable();					// prints first Item in a bucket (if Item exists), and # chained Items
 	void PrintItemsInIndex(int index);	// prints the Items in a given bucket
-	void FindName(int hits);
+	void FindName(int hits);	
 	void RemoveItem(Item*);
 };
 

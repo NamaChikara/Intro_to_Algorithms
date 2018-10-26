@@ -3,15 +3,20 @@
 
 #include "HashTable.h"
 
+HashTable::Item::Item()
+{
+	hits = 0;
+	name = "empty";
+	prev = nullptr;
+	next = nullptr;
+}
+
 HashTable::HashTable()
 {
+	// initialize pointers to buckets
 	for (int i = 0; i < table_size; ++i)
 	{
 		Table[i] = new Item;
-		Table[i]->hits = 0;
-		Table[i]->name = "empty";
-		Table[i]->prev = nullptr;
-		Table[i]->next = nullptr;
 	}
 }
 
@@ -23,6 +28,7 @@ int HashTable::Hash(int hits)
 	return index;
 }
 
+// create Item from data and add it to Table
 void HashTable::AddItem(int hits, std::string name)
 {
 	int index = Hash(hits);
@@ -158,54 +164,3 @@ void HashTable::RemoveItem(Item* ptr)
 	ptr->prev->next = ptr->next;
 	ptr->next->prev = ptr->prev;
 }
-
-/*
-void HashTable::RemoveItem(Item* ptr)
-{
-	int index = Hash(name);
-
-	//Item* delPtr;
-	Item* ptr1;
-	Item* ptr2;
-
-	// Case 0: bucket it empty
-	if (Table[index]->name == "empty" && Table[index]->drink == "empty")
-	{
-		std::cout << name << " was not found in Hash Table\n";
-	}
-
-	// Case 1: only 1 item contained in bucket and that item has matching name
-	else if (Table[index]->name == name && Table[index]->next == nullptr)
-	{
-		Table[index]->name = "empty";
-		Table[index]->drink = "empty";
-		std::cout << name << " was the only entry in index " << index << std::endl;
-	}
-
-	// Case 2: match is located in the first item in the bucket, but there are
-	//  more items in the bucket
-	else if (Table[index]->name == name && Table[index]->next)
-	{
-		Table[index] = Table[index]->next;
-		std::cout << name << " was the first entry in index " << index << std::endl;
-	}
-
-	// Case 3: bucket contains items but first item is not a match
-	// Case 3.1: no match
-	// Case 3.2: match is found
-	else
-	{
-		ptr1 = Table[index];
-		ptr2 = Table[index]->next;
-		while (ptr2)
-		{
-			if (ptr2->name == name)
-			{
-				ptr1->next = ptr2->next;
-			}
-			ptr1 = ptr1->next;
-			ptr2 = ptr2->next;
-		}
-	}
-}
-*/
