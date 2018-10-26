@@ -18,6 +18,9 @@ std::ostream& operator<<(std::ostream& os, Item toprint)
 	return os;
 }
 
+HashTable::HashTable(std::string hash_type)
+	: hash_type{ hash_type } {};
+
 unsigned long HashTable::aux_hash(const char *str)
 {
 	unsigned long hash = 5381;
@@ -31,7 +34,17 @@ unsigned long HashTable::aux_hash(const char *str)
 
 int HashTable::hash(const std::string& key, int probe)
 {
-	return (aux_hash(key.c_str()) + probe) % table_size;
+	if (hash_type == "quadratic_probe")
+		// if table_size is a power of 2, quadratic function (i^2 + i)/2 will visit
+		//  each bucket
+	{
+		return (aux_hash(key.c_str()) + (probe*probe + probe) / 2) % table_size;
+	}
+	else
+		// in particular, if hash_type == "linear_probe"
+	{
+		return (aux_hash(key.c_str()) + probe) % table_size;
+	}
 }
 
 void HashTable::HashInsert(std::string name, int age)

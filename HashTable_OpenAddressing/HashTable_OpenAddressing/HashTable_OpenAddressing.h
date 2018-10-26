@@ -1,6 +1,8 @@
 // This HashTable class used open addressing to manage collisions.
-//  It uses linear probing with auxiliary hash function djb2 algorithm 
-//  (k = 33) described in http://www.cse.yorku.ca/~oz/hash.html
+//  It selects a probing method based on the value of std::string hash_type
+//  (whose default value is "linear_probe").  Both linear and quadratic probing
+//  ("quadratic_probe") use the djb2 algorithm (k = 33) (described in 
+//  http://www.cse.yorku.ca/~oz/hash.html) as their auxiliary hash function.
 
 #pragma once
 
@@ -23,8 +25,11 @@ std::ostream& operator<<(std::ostream& os, Item toprint);
 class HashTable {
 
 private:
-	static const int table_size = 100;
+	static const int table_size = 16;	// power of 2 for optimal quadratic_probing
 	Item Table[table_size];
+	std::string hash_type;		// the hash function checks the value of this string
+								//  to determine which type of probe to use (linear 
+								//  probe is the default)
 	
 	// djb2 algorithm (k = 33) described in http://www.cse.yorku.ca/~oz/hash.html
 	unsigned long aux_hash(const char *str);
@@ -33,6 +38,7 @@ private:
 	int hash(const std::string& key, int probe);
 
 public:
+	HashTable(std::string hash_type = "linear_probe");
 	void HashInsert(std::string name, int age);
 	int HashSearch(std::string name);
 	int HashDelete(std::string name);
