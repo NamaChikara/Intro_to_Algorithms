@@ -34,6 +34,7 @@ unsigned long HashTable::aux_hash(const char *str)
 
 int HashTable::hash(const std::string& key, int probe)
 {
+<<<<<<< HEAD
 	if (hash_type == "quadratic_probe")
 		// if table_size is a power of 2, quadratic function (i^2 + i)/2 will visit
 		//  each bucket
@@ -42,6 +43,9 @@ int HashTable::hash(const std::string& key, int probe)
 	}
 	else
 		// in particular, if hash_type == "linear_probe"
+=======
+	if (hash_type == "linear_probe")
+>>>>>>> 02eab81b0e64d300a1fd2410cf0c8b38cc2480e9
 	{
 		return (aux_hash(key.c_str()) + probe) % table_size;
 	}
