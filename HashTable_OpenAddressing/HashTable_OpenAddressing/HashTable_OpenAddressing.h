@@ -3,6 +3,9 @@
 //  (whose default value is "linear_probe").  Both linear and quadratic probing
 //  ("quadratic_probe") use the djb2 algorithm (k = 33) (described in 
 //  http://www.cse.yorku.ca/~oz/hash.html) as their auxiliary hash function.
+//  Double hashing ("double_hash") uses the additional algorithm sdbm (same source),
+//  modified to always produce odd output so that the whole table is checked if
+//  table_size is a power of 2.
 
 #pragma once
 
@@ -33,6 +36,11 @@ private:
 	
 	// djb2 algorithm (k = 33) described in http://www.cse.yorku.ca/~oz/hash.html
 	unsigned long aux_hash(const char *str);
+
+	// sdbm algorithm described in http://www.cse.yorku.ca/~oz/hash.html
+	//  modified to always produce odd output for use in double hashing
+	//  (since table_size = 2^p, this ensures the whole table is checked)
+	unsigned long double_hash(const char *str);
 	
 	// linear probe using auxiliary hash function aux_hash
 	int hash(const std::string& key, int probe);

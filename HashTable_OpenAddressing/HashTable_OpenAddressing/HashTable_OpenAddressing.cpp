@@ -24,11 +24,31 @@ HashTable::HashTable(std::string hash_type)
 unsigned long HashTable::aux_hash(const char *str)
 {
 	unsigned long hash = 5381;
-	int c;
+	int c = 0;
+
 	while (c = *str++)
 	{
 		hash = ((hash << 5) + hash) + c;	// hash * 33 + c 
 	}
+
+	return hash;
+}
+
+unsigned long HashTable::double_hash(const char *str)
+{
+	unsigned long hash = 0;
+	int c = 0;
+
+	while (c = *str++)
+	{
+		hash = c + (hash << 6) + (hash << 16) - hash;
+	}
+
+	if (hash % 2 == 0)
+	{
+		++hash;
+	}
+
 	return hash;
 }
 
@@ -39,6 +59,12 @@ int HashTable::hash(const std::string& key, int probe)
 		//  each bucket
 	{
 		return (aux_hash(key.c_str()) + (probe*probe + probe) / 2) % table_size;
+	}
+	if (hash_type == "double_hash")
+		// if table_size is a power of 2, this will visit each bucket since double_hash
+		//  is designed to return an odd value
+	{
+		return (aux_hash(key.c_str()) + probe * double_hash(key.c_str())) % table_size;
 	}
 	else  
 		// in particular, if hash_type == "linear_probe"
