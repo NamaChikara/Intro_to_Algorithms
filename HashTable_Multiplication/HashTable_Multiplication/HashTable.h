@@ -1,3 +1,7 @@
+// This HashTable class used doubly linked lists to manage collisions.
+//  Its hash function is the multiplication method (described below during
+//  initialization of constants).
+
 #pragma once
 
 #include <iostream>
