@@ -55,7 +55,10 @@ void HashTable::PrintTable()
 	{
 		if (Table[i].name != "empty" && Table[i].name != "deleted")
 		{
+			std::cout << "---------------\n";
+			std::cout << "Index " << i << " contains:" << std::endl;
 			std::cout << Table[i] << std::endl;
+			std::cout << "---------------\n";
 		}
 	}
 }
