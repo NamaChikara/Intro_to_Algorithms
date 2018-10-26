@@ -40,9 +40,8 @@ int HashTable::hash(const std::string& key, int probe)
 	{
 		return (aux_hash(key.c_str()) + (probe*probe + probe) / 2) % table_size;
 	}
-	else
+	else  
 		// in particular, if hash_type == "linear_probe"
-	if (hash_type == "linear_probe")
 	{
 		return (aux_hash(key.c_str()) + probe) % table_size;
 	}
