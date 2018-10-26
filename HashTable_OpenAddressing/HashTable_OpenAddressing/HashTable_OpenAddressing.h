@@ -27,13 +27,9 @@ class HashTable {
 private:
 	static const int table_size = 16;	// power of 2 for optimal quadratic_probing
 	Item Table[table_size];
-<<<<<<< HEAD
 	std::string hash_type;		// the hash function checks the value of this string
 								//  to determine which type of probe to use (linear 
 								//  probe is the default)
-=======
-	std::string hash_type;
->>>>>>> 02eab81b0e64d300a1fd2410cf0c8b38cc2480e9
 	
 	// djb2 algorithm (k = 33) described in http://www.cse.yorku.ca/~oz/hash.html
 	unsigned long aux_hash(const char *str);
