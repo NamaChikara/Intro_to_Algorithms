@@ -25,6 +25,7 @@ class HashTable {
 private:
 	static const int table_size = 100;
 	Item Table[table_size];
+	std::string hash_type;
 	
 	// djb2 algorithm (k = 33) described in http://www.cse.yorku.ca/~oz/hash.html
 	unsigned long aux_hash(const char *str);
@@ -33,6 +34,7 @@ private:
 	int hash(const std::string& key, int probe);
 
 public:
+	HashTable(std::string hash_type = "linear_probe");
 	void HashInsert(std::string name, int age);
 	int HashSearch(std::string name);
 	int HashDelete(std::string name);
