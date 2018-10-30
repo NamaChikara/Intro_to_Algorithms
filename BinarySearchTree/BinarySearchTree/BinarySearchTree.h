@@ -34,6 +34,10 @@ public:
 
 	Element* successor(Element*);
 	void insert(Element*);
+	// replace subtree u as a child of its parent with subtree v
+	void transplant(Element* u, Element* v);
+	void remove(Element*);
+
 };
 
 
