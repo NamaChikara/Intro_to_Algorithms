@@ -9,6 +9,21 @@ Tree::Tree() {}
 Tree::Tree(Element* first)
 	: root{ first } {}
 
+void Tree::print_inorder(Element* x)
+{
+	if (x != nullptr)
+	{
+		print_inorder(x->left);
+		std::cout << x->key << ", ";
+		print_inorder(x->right);
+	}
+}
+
+void Tree::print_inorder()
+{
+	print_inorder(root);
+}
+
 Element* Tree::search(int k)
 {
 	Element* x = root;
@@ -26,11 +41,6 @@ Element* Tree::search(int k)
 	return x;
 }
 
-Element* Tree::minimum()
-{
-	return minimum(root);
-}
-
 Element* Tree::minimum(Element* x)
 {
 	while (x->left != nullptr)
@@ -40,9 +50,9 @@ Element* Tree::minimum(Element* x)
 	return x;
 }
 
-Element* Tree::maximum()
+Element* Tree::minimum()
 {
-	return maximum(root);
+	return minimum(root);
 }
 
 Element* Tree::maximum(Element* x)
@@ -52,6 +62,11 @@ Element* Tree::maximum(Element* x)
 		x = x->right;
 	}
 	return x;
+}
+
+Element* Tree::maximum()
+{
+	return maximum(root);
 }
 
 Element* Tree::successor(Element* x)
