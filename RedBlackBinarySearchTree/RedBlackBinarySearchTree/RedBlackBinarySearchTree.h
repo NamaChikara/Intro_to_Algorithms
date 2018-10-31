@@ -23,7 +23,12 @@ public:
 	RB_Tree(Element*);	// set root to be equal to the argument
 private:
 	Element* root;
-	void transplant(Element* u, Element* v);	// replace subtree u as a child of its parent with subtree v
+	Element* nil;		// nil sentinal for border cases
+	void left_rotate(Element* x);	// assumes x's right child, y, is not nil;  y becomes the new
+									//  root of the subtree, with x as y's left child and y's
+									//  left child as x's right child
+	void right_rotate(Element* x);	// assumes x's left child, y, is not nil and proceeds symmetrically
+									//  to left_rotate
 public:
 	void print_inorder(Element*);	// if printing the subtree with argument as its base
 	void print_inorder();			// if printing the whole tree
