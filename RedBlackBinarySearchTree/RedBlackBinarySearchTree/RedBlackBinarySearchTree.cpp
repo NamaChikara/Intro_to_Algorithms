@@ -142,3 +142,99 @@ void RB_Tree::right_rotate(Element* x)
 	x->parent = y;
 }
 
+void RB_Tree::insert_fixup(Element* z)
+{
+	while (z->parent->color == 0)
+	{	
+		// locate z's "uncle"
+		if (z->parent = z->parent->parent->left)
+		{
+			Element* y = z->parent->parent->right;
+			if (y->color == 0)
+			// make z's parent and uncle black, grandparent red, and advance up tree
+			{
+				z->parent->color = 1;
+				y->color = 1;
+				z->parent->parent->color = 0;
+				z = z->parent->parent;
+			}
+			else	// we can rotate and recolor to satisfy RB properties
+			{
+				if (z = z->parent->right)
+				// rotate so that we can recolor correctly
+				{
+					z = z->parent;
+					left_rotate(z);
+				}
+				z->parent->color = 1;	// hence the while loop will finish executing
+				z->parent->parent->color = 0;
+				right_rotate(z->parent->parent);
+			}
+		}
+		else
+		{
+			Element* y = z->parent->parent->left;
+			if (y->color == 0)
+				// make z's parent and uncle black, grandparent red, and advance up tree
+			{
+				z->parent->color = 1;
+				y->color = 1;
+				z->parent->parent->color = 0;
+				z = z->parent->parent;
+			}
+			else	// we can rotate and recolor to satisfy RB properties
+			{
+				if (z = z->parent->left)
+					// rotate so that we can recolor correctly
+				{
+					z = z->parent;
+					right_rotate(z);
+				}
+				z->parent->color = 1;	// hence the while loop will finish executing
+				z->parent->parent->color = 0;
+				left_rotate(z->parent->parent);
+			}
+		}
+	}
+	root->color = 1;	// if (z->parent->color == 0) takes us up the tree until
+						//  z->parent->parent == root, then the root's color is set 
+						//  to red and since the root's parent is the (black) sentinel,
+						//  we will exit the while loop with a red root (contradicting a RB property)
+}
+
+void RB_Tree::insert(Element* z)
+{
+	Element* y = nil;
+	Element* x = root;
+	while (x != nil)	// travel down the tree based on key comparisons
+	{
+		y = x;
+		if (z->key < x->key)
+		{
+			x = x->left;
+		}
+		else
+		{
+			x = x->right;
+		}
+	}
+	// make z a new leaf of the RB_Tree (or the root if y = nil)
+	z->parent = y;
+	if (y == nil)
+	{
+		root = z;
+	}
+	else if (z->key < y->key)
+	{
+		y->left = z;
+	}
+	else
+	{
+		y->right = z;
+	}
+	z->left = nil;
+	z->right = nil;
+	z->color = 0;
+	// now make sure the color properties are maintained
+	insert_fixup(z);
+}
