@@ -35,6 +35,8 @@ private:
 	void right_rotate(Element* x);	// assumes x's left child, y, is not nil and proceeds symmetrically
 									//  to left_rotate
 	void insert_fixup(Element*);	// ensure color properties upheld after insertion
+	void transplant(Element* u, Element* v);	// replace subtree u as a child of its parent with subtree v
+	void delete_fixup(Element*);	// ensure color properties upheld after deletion
 public:
 	void print_inorder(Element*);	// if printing the subtree with argument as its base
 	void print_inorder();			// if printing the whole tree
@@ -47,6 +49,7 @@ public:
 	Element* maximum();
 	Element* successor(Element*);	// return the immediate successor of the argument
 	void insert(Element*);		// insert argument into the tree then call insert_fixup
+	void remove(Element*);
 };
 
 #endif // 

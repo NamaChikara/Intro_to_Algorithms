@@ -70,7 +70,7 @@ void RB_Tree::print_inorder_detail()
 Element* RB_Tree::search(int k)
 {
 	Element* x = root;
-	while (x != nullptr && k != x->key)
+	while (x != nil && k != x->key)
 	{
 		if (k < x->key)
 		{
@@ -86,7 +86,7 @@ Element* RB_Tree::search(int k)
 
 Element* RB_Tree::minimum(Element* x)
 {
-	while (x->left != nullptr)
+	while (x->left != nil)
 	{
 		x = x->left;
 	}
@@ -100,7 +100,7 @@ Element* RB_Tree::minimum()
 
 Element* RB_Tree::maximum(Element* x)
 {
-	while (x->right != nullptr)
+	while (x->right != nil)
 	{
 		x = x->right;
 	}
@@ -114,12 +114,12 @@ Element* RB_Tree::maximum()
 
 Element* RB_Tree::successor(Element* x)
 {
-	if (x->right != nullptr)
+	if (x->right != nil)
 	{
 		return minimum(x->right);
 	}
 	Element* y = x->parent;
-	while (y != nullptr && x == y->right)
+	while (y != nil && x == y->right)
 	{
 		x = y;
 		y = y->parent;
@@ -185,10 +185,6 @@ void RB_Tree::insert_fixup(Element* z)
 		// locate z's "uncle"
 		if (z->parent == z->parent->parent->left)
 		{
-			//
-			//std::cout << z->key << std::endl;
-			//std::cout << z->parent->key << std::endl;
-			//
 			Element* y = z->parent->parent->right;
 			if (y->color == 0)
 			// make z's parent and uncle black, grandparent red, and advance up tree
@@ -277,4 +273,79 @@ void RB_Tree::insert(Element* z)
 	z->color = 0;
 	// now make sure the color properties are maintained
 	insert_fixup(z);
+}
+
+void RB_Tree::transplant(Element* u, Element* v)
+{
+	std::cout << u->key;
+	if (u->parent == nil)
+	{
+		root = v;
+	}
+	else if (u == u->parent->left)
+	{
+		u->parent->left = v;
+	}
+	else
+	{
+		u->parent->right = v;
+	}
+	v->parent = u->parent;
+}
+
+void RB_Tree::delete_fixup(Element* z)
+{
+
+}
+
+void RB_Tree::remove(Element* z)
+{
+	// maintain y as the removed node or node moved within the tree
+	// maintain x as the node that moves into y's original position	
+
+	Element* y = z;	
+	int y_original_color = y->color;
+
+	// case 1: no left child; simply replace z by its right child
+	if (z->left == nil)
+	{
+		Element* x = z->right;	
+		transplant(z, z->right);
+	}
+	// case 2: only one child, which is left child; replace z by its left child
+	else if (z->right == nil)
+	{
+		Element* x = z->left;
+		transplant(z, z->left);
+	}
+	// case 3: right and left child
+	else
+	{
+		// first, locate z's successor 
+		y = minimum(z->right);
+		y_original_color = y->color;
+		Element* x = y->right;	// if a node in a binary search tree has two children, then its
+								//  successor has no left child; 
+		if (y->parent == z)
+		{
+			x->parent = y;
+		}
+		// if y is not z's right child, replace y by its own right child
+		else
+		{
+			transplant(y, y->right);
+			y->right = z->right;
+			y->right->parent = y;
+		}
+		// replace z by y
+		transplant(z, y);
+		y->left = z->left;
+		y->left->parent = y;
+		y->color = z->color;
+	}
+	// if a black node was moved, red-black color properties may be violated
+	if (y_original_color == 1)
+	{
+		//delete_fixup(x);
+	}
 }
