@@ -5,6 +5,14 @@ Element::Element(int key, int color, Element* par,
 	: key{ key }, color{ color }, parent{ par }, 
 	left{ left }, right{ right } {}
 
+std::string Element::point_str()
+{
+	const void *address = static_cast<const void*>(this);
+	std::stringstream ss;
+	ss << address;
+	return ss.str();
+}
+
 RB_Tree::RB_Tree()
 {
 	nil = new Element(0, 1);

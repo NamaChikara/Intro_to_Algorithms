@@ -4,16 +4,19 @@
 #define REDBLACKBINARYSEARCHTREE_H
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 struct Element
 {
-	Element(int, int, Element* = nullptr,
+	Element(int, int = 0, Element* = nullptr,
 		Element* = nullptr, Element* = nullptr);
 	int key;
 	int color;			// 0 == red, 1 == black
 	Element* parent;
 	Element* left;
 	Element* right;
+	std::string point_str();	// convert pointer location to string for printing
 };
 
 class RB_Tree
@@ -29,6 +32,7 @@ private:
 									//  left child as x's right child
 	void right_rotate(Element* x);	// assumes x's left child, y, is not nil and proceeds symmetrically
 									//  to left_rotate
+	void insert_fixup(Element*);	// ensure color properties upheld after insertion
 public:
 	void print_inorder(Element*);	// if printing the subtree with argument as its base
 	void print_inorder();			// if printing the whole tree
@@ -38,6 +42,7 @@ public:
 	Element* maximum(Element*);
 	Element* maximum();
 	Element* successor(Element*);	// return the immediate successor of the argument
+	void insert(Element*);		// insert argument into the tree then call insert_fixup
 };
 
 #endif // 
