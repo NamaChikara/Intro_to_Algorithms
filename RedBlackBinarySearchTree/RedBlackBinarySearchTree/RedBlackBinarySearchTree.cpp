@@ -13,9 +13,22 @@ std::string Element::point_str()
 	return ss.str();
 }
 
+void Element::print_element()
+{
+	std::string e_col = (color == 0) ? "red" : "black";
+	std::cout << "-------------\n";
+	std::cout << "key value: " << key << ", color: " << e_col << std::endl;
+	std::cout << std::setw(20) << "this location: " << point_str() << std::endl;
+	std::cout << std::setw(20) << "this parent: " << parent->point_str() << std::endl;
+	std::cout << std::setw(20) << "this left child: " << left->point_str() << std::endl;
+	std::cout << std::setw(20) << "this right child: " << right->point_str() << std::endl;
+	std::cout << "-------------\n";
+}
+
 RB_Tree::RB_Tree()
 {
 	nil = new Element(0, 1);
+	root = nil;
 }
 
 RB_Tree::RB_Tree(Element* first)
@@ -26,7 +39,7 @@ RB_Tree::RB_Tree(Element* first)
 
 void RB_Tree::print_inorder(Element* x)
 {
-	if (x != nullptr)
+	if (x != nil)
 	{
 		print_inorder(x->left);
 		std::cout << x->key << ", ";
@@ -37,6 +50,21 @@ void RB_Tree::print_inorder(Element* x)
 void RB_Tree::print_inorder()
 {
 	print_inorder(root);
+}
+
+void RB_Tree::print_inorder_detail(Element* x)
+{
+	if (x != nil)
+	{
+		print_inorder_detail(x->left);
+		x->print_element();
+		print_inorder_detail(x->right);
+	}
+}
+
+void RB_Tree::print_inorder_detail()
+{
+	print_inorder_detail(root);
 }
 
 Element* RB_Tree::search(int k)

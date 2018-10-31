@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <iomanip>	// setw()
 
 struct Element
 {
@@ -17,6 +18,7 @@ struct Element
 	Element* left;
 	Element* right;
 	std::string point_str();	// convert pointer location to string for printing
+	void print_element();	// print details about pointer locations
 };
 
 class RB_Tree
@@ -36,6 +38,8 @@ private:
 public:
 	void print_inorder(Element*);	// if printing the subtree with argument as its base
 	void print_inorder();			// if printing the whole tree
+	void print_inorder_detail(Element*);	// print subtree with pointer memory locations
+	void print_inorder_detail();
 	Element* search(int);		// return pointer to Element holding the argument as its key
 	Element* minimum(Element*);	// if searching a subtree (i.e. starting at a specific Element)
 	Element* minimum();			// if searching the whole tree (i.e. starting at root)
