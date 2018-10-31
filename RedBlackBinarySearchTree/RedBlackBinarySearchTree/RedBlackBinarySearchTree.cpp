@@ -183,8 +183,12 @@ void RB_Tree::insert_fixup(Element* z)
 	while (z->parent->color == 0)
 	{	
 		// locate z's "uncle"
-		if (z->parent = z->parent->parent->left)
+		if (z->parent == z->parent->parent->left)
 		{
+			//
+			//std::cout << z->key << std::endl;
+			//std::cout << z->parent->key << std::endl;
+			//
 			Element* y = z->parent->parent->right;
 			if (y->color == 0)
 			// make z's parent and uncle black, grandparent red, and advance up tree
@@ -196,7 +200,7 @@ void RB_Tree::insert_fixup(Element* z)
 			}
 			else	// we can rotate and recolor to satisfy RB properties
 			{
-				if (z = z->parent->right)
+				if (z == z->parent->right)
 				// rotate so that we can recolor correctly
 				{
 					z = z->parent;
@@ -220,7 +224,7 @@ void RB_Tree::insert_fixup(Element* z)
 			}
 			else	// we can rotate and recolor to satisfy RB properties
 			{
-				if (z = z->parent->left)
+				if (z == z->parent->left)
 					// rotate so that we can recolor correctly
 				{
 					z = z->parent;
