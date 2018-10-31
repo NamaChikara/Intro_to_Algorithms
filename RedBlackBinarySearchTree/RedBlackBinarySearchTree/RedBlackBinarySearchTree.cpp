@@ -277,7 +277,6 @@ void RB_Tree::insert(Element* z)
 
 void RB_Tree::transplant(Element* u, Element* v)
 {
-	std::cout << u->key;
 	if (u->parent == nil)
 	{
 		root = v;
@@ -293,9 +292,92 @@ void RB_Tree::transplant(Element* u, Element* v)
 	v->parent = u->parent;
 }
 
-void RB_Tree::delete_fixup(Element* z)
+void RB_Tree::delete_fixup(Element* x)
 {
-
+	// within the while loop, x always points to a nonroot doubly black node
+	//  the goal of the while loop is to move the extra black up the tree until
+	//  termination: (1) x points to a red-and-black node; it is then colored (singly) black
+	//			     (2) x points to the root; make x singly black 
+	// w is maintained to be the sibling of x
+	while (x != root && x->color == 1)
+	{
+		if (x == x->parent->left)
+		{
+			Element* w = x->parent->right;
+			if (w->color == 0)
+			// case 1: x's sibling w is red. take action to fall through to case 2,3, or 4
+			{
+				// Since w must have black children, switching the colors of w and x->parent
+				//  and left-rotating on x->parent does not violate color properties
+				w->color = 1;
+				x->parent->color = 0;
+				left_rotate(x->parent);	// Note that w->left (black) has become x's sibling; 
+										//  case 1 falls through to 2, 3, or 4
+				w = x->parent->right;	// maintain that w is x's sibling
+			}
+			if (w->left->color == 1 && w->right->color == 1)
+			// case 2: x's sibling w and its children are all black.  take 
+			{	
+				// take one black off both x and w, treat x->parent as doubly black
+				w->color = 0;
+				x = x->parent;	// if fell through from case 1, x->parent is now red-black so the 
+								//  while loop will terminate in order to color x->parent singly black
+			}
+			else
+			{
+				if (w->right->color == 1)
+					// case 3: x's sibling w is black, w's left child is red, and w's right child is black
+				{
+					// Switch w and w->left's colors then right rotate on w without any color violations.
+					w->left->color = 1;
+					w->color = 0;
+					right_rotate(w);
+					w = x->parent->right;	// x's sibling is now a black node with a red right child (case 4)
+				}
+				// case 4: x's sibling w is black, and w's right child is red
+				//  make color changes and left rotate x->parent to make x singly black
+				w->color = x->parent->color;
+				x->parent->color = 1;
+				w->right->color = 1;
+				left_rotate(x->parent);
+				// set x to point to the root so that the while loop will terminate
+				x = root;	
+			}	
+		}
+		// symmetric to the clause executed when x == x->parent->left
+		else
+		{
+			Element* w = x->parent->left;
+			if (w->color == 0)
+			{
+				w->color = 1;
+				x->parent->color = 0;
+				right_rotate(x->parent);			
+				w = x->parent->left;	
+			}
+			if (w->left->color == 1 && w->right->color == 1) 
+			{
+				w->color = 0;
+				x = x->parent;
+			}
+			else
+			{
+				if (w->left->color == 1)
+				{
+					w->right->color = 1;
+					w->color = 0;
+					left_rotate(w);
+					w = x->parent->left;	
+				}
+				w->color = x->parent->color;
+				x->parent->color = 1;
+				w->left->color = 1;
+				right_rotate(x->parent);
+				x = root;
+			}
+		}
+	}
+	x->color = 1;
 }
 
 void RB_Tree::remove(Element* z)
@@ -305,6 +387,7 @@ void RB_Tree::remove(Element* z)
 
 	Element* y = z;	
 	int y_original_color = y->color;
+	Element* x = nil;
 
 	// case 1: no left child; simply replace z by its right child
 	if (z->left == nil)
@@ -324,7 +407,7 @@ void RB_Tree::remove(Element* z)
 		// first, locate z's successor 
 		y = minimum(z->right);
 		y_original_color = y->color;
-		Element* x = y->right;	// if a node in a binary search tree has two children, then its
+		x = y->right;	// if a node in a binary search tree has two children, then its
 								//  successor has no left child; 
 		if (y->parent == z)
 		{
@@ -346,6 +429,7 @@ void RB_Tree::remove(Element* z)
 	// if a black node was moved, red-black color properties may be violated
 	if (y_original_color == 1)
 	{
-		//delete_fixup(x);
+		std::cout << "x's key: " << x->key << std::endl;
+		delete_fixup(x);
 	}
 }
