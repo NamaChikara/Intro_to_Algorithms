@@ -1,4 +1,3 @@
-
 class Stack:
 
     def __init__(self):
@@ -11,12 +10,12 @@ class Stack:
         return self.size() == 0
 
     def push(self, item):
-        self.items = [item] + self.items
+        self.items.append(item)
 
     def peek(self):
         item = []
         if not self.is_empty():
-            item = self.items[0]
+            item = self.items[self.size() - 1]
         return item
 
     def pop(self):
