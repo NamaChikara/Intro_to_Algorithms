@@ -1,10 +1,10 @@
 from Python.Structures.Stack import Stack
 
 
-def check_parens(x):
+def parens_matched(x):
     # Read a string from left to right and decide whether left and right parentheses are balanced.
 
-    stack = Stack.Stack()
+    stack = Stack()
     matched = True
 
     for char in x:
