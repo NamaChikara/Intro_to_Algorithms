@@ -20,6 +20,6 @@ class Stack:
 
     def pop(self):
         item = self.peek()
-        self.items = self.items[1:]
+        self.items = self.items[0:self.size() - 1]
         return item
 
