@@ -1,4 +1,4 @@
-from Python.Structures.Stack import Stack
+from structures.stack import Stack
 
 
 def dec_to_binary(x):
@@ -9,7 +9,7 @@ def dec_to_binary(x):
     while x > 0:
         remainder = x % 2
         exponents.push(remainder)
-        x = int(x / 2)
+        x = x // 2
 
     binary = ''
 

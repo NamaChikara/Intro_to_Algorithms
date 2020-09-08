@@ -1,4 +1,4 @@
-from Python.Structures.Stack import Stack
+from structures.stack import Stack
 
 
 def parens_matched(x):
